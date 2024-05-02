@@ -1,29 +1,39 @@
-import { TestBed } from '@angular/core/testing';
-import { AppComponent } from './app.component';
+import {
+  ComponentFixture,
+  TestBed
+} from "@angular/core/testing";
+import {AppComponent} from "./app.component";
+import { ProductsService} from "./services/products.service";
+import {of} from "rxjs";
+import {MOCK_PRODUCTS} from "./tests/mock";
 
-describe('AppComponent', () => {
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [AppComponent],
-    }).compileComponents();
-  });
+export class MockProductService {
+  public products$ = of(MOCK_PRODUCTS)
+}
 
-  it('should create the app', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app).toBeTruthy();
-  });
+describe('app component', () => {
 
-  it(`should have the 'kendo-store' title`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('kendo-store');
-  });
+  let component: ComponentFixture<AppComponent>
 
-  it('should render title', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, kendo-store');
-  });
-});
+  beforeEach(() => {
+
+    TestBed.configureTestingModule(
+      {
+        providers: [ AppComponent, {
+          provide: ProductsService,
+          useClass: MockProductService,
+        }]
+      }
+    ).compileComponents()
+
+    component = TestBed.createComponent<AppComponent>(AppComponent);
+
+  })
+
+  it('should render the product', () => {
+    component.detectChanges();
+    const productTitle: HTMLElement = component.nativeElement.querySelector('h2');
+    expect(productTitle.innerText).toEqual(MOCK_PRODUCTS[0].title)
+  })
+
+})
