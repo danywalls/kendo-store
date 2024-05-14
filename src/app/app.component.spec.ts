@@ -1,11 +1,9 @@
-import {
-  ComponentFixture,
-  TestBed
-} from "@angular/core/testing";
+import {ComponentFixture, TestBed} from "@angular/core/testing";
 import {AppComponent} from "./app.component";
-import { ProductsService} from "./services/products.service";
+import {ProductsService} from "./services/products.service";
 import {of} from "rxjs";
 import {MOCK_PRODUCTS} from "./tests/mock";
+
 
 export class MockProductService {
   public products$ = of(MOCK_PRODUCTS)
@@ -17,8 +15,10 @@ describe('app component', () => {
 
   beforeEach(() => {
 
+
     TestBed.configureTestingModule(
       {
+        imports: [],
         providers: [ AppComponent, {
           provide: ProductsService,
           useClass: MockProductService,

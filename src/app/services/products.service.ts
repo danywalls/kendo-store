@@ -1,5 +1,6 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {inject, Injectable} from '@angular/core';
+import {catchError, throwError} from "rxjs";
 
 export type Product = {
   id: string;
@@ -13,7 +14,7 @@ export type Product = {
 })
 export class ProductsService {
 
-   private API = 'https://fakestoreapi.com/products'
+  private API = 'https://fakestoreapi.com/products'
   private http = inject(HttpClient)
   public products$ = this.http.get<Product[]>(this.API);
 }
