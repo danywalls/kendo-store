@@ -12,28 +12,26 @@ export class MockProductService {
 }
 
 describe('app component', () => {
-
-  let component: ComponentFixture<AppComponent>
+  let component: ComponentFixture<AppComponent>;
 
   beforeEach(() => {
-
-    TestBed.configureTestingModule(
-      {
-        providers: [ AppComponent, {
+    TestBed.configureTestingModule({
+      providers: [
+        AppComponent,
+        {
           provide: ProductsService,
           useClass: MockProductService,
-        }]
-      }
-    ).compileComponents()
+        },
+      ],
+    }).compileComponents();
 
     component = TestBed.createComponent<AppComponent>(AppComponent);
-
-  })
+  });
 
   it('should render the product', () => {
     component.detectChanges();
-    const productTitle: HTMLElement = component.nativeElement.querySelector('h2');
-    expect(productTitle.innerText).toEqual(MOCK_PRODUCTS[0].title)
-  })
-
-})
+    const productTitle: HTMLElement =
+      component.nativeElement.querySelector('h2');
+    expect(productTitle.innerText).toEqual(MOCK_PRODUCTS[0].title);
+  });
+});
